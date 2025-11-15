@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from datetime import datetime
 from custom_modules.data_walidator import data_validator
 
@@ -15,5 +16,17 @@ with DAG(
         python_callable=data_validator,
         op_kwargs={
             'record_count':250
-        }
+        },
     )
+
+    read_validation_result = BashOperator(
+        task_id = 'read_validation_result',
+        bash_command = """
+            echo "-----------------------------------"
+            echo "Otrzymano wynik z poprzedniego zadania (XCom):"
+            echo "{{ task_instance.xcom_pull(task_ids='validate_data_source') }}"
+            echo "-----------------------------------"
+            """
+    )
+
+    validate_data_source >> read_validation_result
