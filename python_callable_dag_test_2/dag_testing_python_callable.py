@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-from python_callable_dag_test_2 import data_validator
+from custom_modules.data_walidator import data_validator
 
 with DAG(
     dag_id='data_validator_pipeline',
