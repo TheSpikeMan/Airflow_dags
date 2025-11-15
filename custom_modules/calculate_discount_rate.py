@@ -8,9 +8,8 @@ def calculate_discount_rate(**kwargs):
     Oblicza 10% zniżki na podstawie podanej kwoty.
     """
     
-    # 1. Pobieranie Parametru z kontekstu DAG-a (opcjonalnie)
-    # W Airflow, parametry często trafiają do kwargs['op_kwargs']
-    amount = kwargs.get('op_kwargs', {}).get('sales_amount', 1000)
+    # 1. Pobieranie Parametru z kontekstu DAG-
+    amount = kwargs.get('sales_amount', 1000)
     
     # 2. Logika Biznesowa
     discount = amount * 0.10
