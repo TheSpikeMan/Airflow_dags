@@ -2,9 +2,11 @@ import requests
 import logging
 import pandas as pd
 from urllib.parse import urljoin
+from json import JSONDecodeError
 
 
 def extract_api_data(url_address: str, sub_url_address: str, start: str, end: str):
+    json_file = None
     try:
         with requests.request(
                 method='GET',
@@ -13,22 +15,32 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
                     'start_date': start,
                     'end_date': end},
                 timeout=10) as r:
+
             r.raise_for_status()
             logger.info(f"Connection_status: {r.status_code}")
             logger.info(f"Url: {r.url}")
+
             json_file = r.json()
+
+            if json_file is None:
+                logger.error("No data fetched")
+                return None
     except requests.Timeout:
         logger.error("An error occurred: Timeout")
-    except requests.JSONDecodeError:
+    except JSONDecodeError:
         logger.error("An error occurred: JSON Decode Error")
     except requests.ConnectionError:
         logger.error("An error occurred: Connection Error")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
     return json_file
 
 
 def load_data(json: list[dict]):
-    data = pd.DataFrame(json)
-    return data
+    if json is None:
+        logger.error("No data loaded")
+        return pd.DataFrame()
+    return pd.DataFrame(json)
 
 
 if __name__ == '__main__':
