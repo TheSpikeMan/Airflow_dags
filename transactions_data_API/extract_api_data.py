@@ -5,24 +5,24 @@ from urllib.parse import urljoin
 
 
 def extract_api_data(url_address: str, sub_url_address: str, start: str, end: str):
-    with requests.request(
-            method='GET',
-            url=urljoin(url_address, sub_url_address),
-            params={
-                'start_date': start,
-                'end_date': end},
-            timeout=10) as r:
-        try:
+    try:
+        with requests.request(
+                method='GET',
+                url=urljoin(url_address, sub_url_address),
+                params={
+                    'start_date': start,
+                    'end_date': end},
+                timeout=10) as r:
             r.raise_for_status()
             logger.info(f"Connection_status: {r.status_code}")
             logger.info(f"Url: {r.url}")
             json_file = r.json()
-        except requests.Timeout:
-            logger.error("An error occurred: Timeout")
-        except requests.JSONDecodeError:
-            logger.error("An error occurred: JSON Decode Error")
-        except requests.ConnectionError:
-            logger.error("An error occurred: Connection Error")
+    except requests.Timeout:
+        logger.error("An error occurred: Timeout")
+    except requests.JSONDecodeError:
+        logger.error("An error occurred: JSON Decode Error")
+    except requests.ConnectionError:
+        logger.error("An error occurred: Connection Error")
     return json_file
 
 
