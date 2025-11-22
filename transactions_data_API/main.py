@@ -2,6 +2,7 @@ from fastapi import FastAPI, Query
 from fastapi import HTTPException
 from typing import Optional
 import pendulum
+from pendulum.parsing.exceptions import ParserError
 import random
 
 app = FastAPI()
@@ -40,12 +41,12 @@ def get_transactions(
     # Parsing date
     try:
         start_date_parsed = pendulum.parse(start_date) if start_date else date_beginning
-    except pendulum.parsing.exceptions.ParserError:
+    except ParserError:
         raise HTTPException(status_code=400, detail="start_date has incorrect format, use YYYY-MM-DD")
 
     try:
         end_date_parsed = pendulum.parse(end_date) if end_date else date_end
-    except pendulum.parsing.exceptions.ParserError:
+    except ParserError:
         raise HTTPException(status_code=400, detail="end_date has incorrect format, use YYYY-MM-DD")
 
     # Filtering data
