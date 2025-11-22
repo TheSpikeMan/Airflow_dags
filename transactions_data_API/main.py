@@ -28,7 +28,6 @@ transactions = [{"transaction_id": random.choice(int_numbers_list),
                  "product_name": random.choice(products_list)}
                 for i in range(0, 1000, 1)]
 
-
 """ API """
 
 
@@ -39,12 +38,12 @@ def get_transactions(
 ):
     # Parsing date
     try:
-        start_date_parsed = pendulum.parse(start_date) if start_date else DATE_BEGINNING
+        start_date_parsed = pendulum.parse(start_date, exact=True) if start_date else DATE_BEGINNING
     except ParserError:
         raise HTTPException(status_code=400, detail="start_date has incorrect format, use YYYY-MM-DD")
 
     try:
-        end_date_parsed = pendulum.parse(end_date) if end_date else DATE_END
+        end_date_parsed = pendulum.parse(end_date, exact=True) if end_date else DATE_END
     except ParserError:
         raise HTTPException(status_code=400, detail="end_date has incorrect format, use YYYY-MM-DD")
 
