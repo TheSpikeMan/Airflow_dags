@@ -9,15 +9,14 @@ app = FastAPI()
 
 """ Preparing data for API """
 # Defining dates to generate random values
-date_beginning = pendulum.date(2025, 1, 1)
-date_end = pendulum.date(2025, 12, 31)
+DATE_BEGINNING = pendulum.date(2025, 1, 1)
+DATE_END = pendulum.date(2025, 12, 31)
 
 # Saving to list
-current_date = date_beginning
-dates_list = [current_date.add(days=i) for i in range(0, (date_end - date_beginning).days + 1, 1)]
+dates_list = [DATE_BEGINNING.add(days=i) for i in range(0, (DATE_END - DATE_BEGINNING).days + 1, 1)]
 
 # Finding random numbers
-int_numbers_list = [int(round(random.random() * 100)) for i in range(0, 10000, 1)]
+int_numbers_list = [random.randint(0, 100) * 100 for i in range(10000)]
 
 # Defining random products
 products_list = ['laptop', 'mobile_phone', 'charger', 'lamp', 'table', 'TV', 'mouse', 'usb_c_cable', 'keyboard']
@@ -40,12 +39,12 @@ def get_transactions(
 ):
     # Parsing date
     try:
-        start_date_parsed = pendulum.parse(start_date) if start_date else date_beginning
+        start_date_parsed = pendulum.parse(start_date) if start_date else DATE_BEGINNING
     except ParserError:
         raise HTTPException(status_code=400, detail="start_date has incorrect format, use YYYY-MM-DD")
 
     try:
-        end_date_parsed = pendulum.parse(end_date) if end_date else date_end
+        end_date_parsed = pendulum.parse(end_date) if end_date else DATE_END
     except ParserError:
         raise HTTPException(status_code=400, detail="end_date has incorrect format, use YYYY-MM-DD")
 
