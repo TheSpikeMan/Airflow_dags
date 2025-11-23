@@ -16,7 +16,9 @@ DATE_END = pendulum.date(2025, 12, 31)
 dates_list = [DATE_BEGINNING.add(days=i) for i in range(0, (DATE_END - DATE_BEGINNING).days + 1, 1)]
 
 # Finding random numbers
-int_numbers_list = [random.randint(0, 100) * 100 for i in range(10000)]
+int_numbers_list = [
+    None if random.random() < 0.05 else random.randint(0, 100) * 100
+    for i in range(10000)]
 
 # Defining random products
 products_list = ['laptop', 'mobile_phone', 'charger', 'lamp', 'table', 'TV', 'mouse', 'usb_c_cable', 'keyboard']
