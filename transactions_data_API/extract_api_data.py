@@ -4,6 +4,8 @@ import pandas as pd
 from urllib.parse import urljoin
 from json import JSONDecodeError
 
+""" Defining Logging instance """
+logger = logging.getLogger(__name__)
 
 
 def extract_api_data(url_address: str, sub_url_address: str, start: str, end: str) -> list[dict] | None:
@@ -43,7 +45,7 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
 
 def load_data(json: list[dict]):
     if json is None:
-        logger.error("No data loaded")
+        logger.error("No data loaded. Returning empty DataFrame.")
         return pd.DataFrame()
     return pd.DataFrame(json)
 
@@ -52,7 +54,7 @@ if __name__ == '__main__':
     """ Logger config """
     logger = logging.getLogger(__name__)
     logging.basicConfig(
-        level=logging.WARNING,
+        level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S',
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
