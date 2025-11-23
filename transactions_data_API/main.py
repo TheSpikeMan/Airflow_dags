@@ -21,7 +21,19 @@ int_numbers_list = [
     for i in range(10000)]
 
 # Defining random products
-products_list = ['laptop', 'mobile_phone', 'charger', 'lamp', 'table', 'TV', 'mouse', 'usb_c_cable', 'keyboard']
+products_list = [{1: 'laptop'},
+                 {2: 'mobile_phone'},
+                 {3: 'charger'},
+                 {4: 'lamp'},
+                 {5: 'table'},
+                 {6: 'TV'},
+                 {7: 'mouse'},
+                 {8: 'usb_c_cable'},
+                 {9: 'keyboard'},
+                 {10: None}]
+
+# Defining statuses and theirs IDS
+status_list = [{1: 'received'}, {2: 'in realization'}, {3: 'realized'}, {4: 'cancelled'}]
 
 # Generating random transaction data
 transactions = [{"transaction_id": random.choice(int_numbers_list),
