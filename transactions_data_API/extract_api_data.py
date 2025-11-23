@@ -31,6 +31,8 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
         logger.error("An error occurred: JSON Decode Error")
     except requests.ConnectionError:
         logger.error("An error occurred: Connection Error")
+    except requests.HTTPError:
+        logger.error("An error occurred: HTTP Error")
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
     return json_file
