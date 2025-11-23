@@ -48,13 +48,14 @@ for i in range(1000):
     transaction_id = int_numbers_list.pop()
 
     transactions.append({
-        "transaction_id": random.choice(int_numbers_list),
+        "transaction_id": transaction_id,
         "transaction_date": random.choice(dates_list),
         "product_id": product_id,
         "product_name": product_name,
         "status_id": status_id,
         "status_name": status_name
     })
+
 
 """ API """
 
