@@ -43,7 +43,7 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
     return json_file
 
 
-def load_data(json: list[dict]):
+def load_data(json: list[dict]) -> pd.DataFrame:
     if json is None:
         logger.error("No data loaded. Returning empty DataFrame.")
         return pd.DataFrame()
@@ -52,7 +52,6 @@ def load_data(json: list[dict]):
 
 if __name__ == '__main__':
     """ Logger config """
-    logger = logging.getLogger(__name__)
     logging.basicConfig(
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S',
