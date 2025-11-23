@@ -36,6 +36,7 @@ products_list = [{1: 'laptop'},
 status_list = [{1: 'received'}, {2: 'in realization'}, {3: 'realized'}, {4: 'cancelled'}]
 
 # Generating random transaction data
+random.shuffle(int_numbers_list)
 transactions = []
 for i in range(1000):
     status = random.choice(status_list)
@@ -43,6 +44,8 @@ for i in range(1000):
 
     product = random.choice(products_list)
     product_id, product_name = next(iter(product.items()))
+
+    transaction_id = int_numbers_list.pop()
 
     transactions.append({
         "transaction_id": random.choice(int_numbers_list),
