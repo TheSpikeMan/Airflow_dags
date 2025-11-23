@@ -36,11 +36,22 @@ products_list = [{1: 'laptop'},
 status_list = [{1: 'received'}, {2: 'in realization'}, {3: 'realized'}, {4: 'cancelled'}]
 
 # Generating random transaction data
-transactions = [{"transaction_id": random.choice(int_numbers_list),
-                 "transaction_date": random.choice(dates_list),
-                 "product_id": random.choice(int_numbers_list),
-                 "product_name": random.choice(products_list)}
-                for i in range(0, 1000, 1)]
+transactions = []
+for i in range(1000):
+    status = random.choice(status_list)
+    status_id, status_name = next(iter(status.items()))
+
+    product = random.choice(products_list)
+    product_id, product_name = next(iter(product.items()))
+
+    transactions.append({
+        "transaction_id": random.choice(int_numbers_list),
+        "transaction_date": random.choice(dates_list),
+        "product_id": product_id,
+        "product_name": product_name,
+        "status_id": status_id,
+        "status_name": status_name
+    })
 
 """ API """
 
