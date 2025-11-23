@@ -5,12 +5,15 @@ from urllib.parse import urljoin
 from json import JSONDecodeError
 
 
-def extract_api_data(url_address: str, sub_url_address: str, start: str, end: str):
+
+def extract_api_data(url_address: str, sub_url_address: str, start: str, end: str) -> list[dict] | None:
     json_file = None
+    full_url = urljoin(url_address, sub_url_address)
+
     try:
         with requests.request(
                 method='GET',
-                url=urljoin(url_address, sub_url_address),
+                url=full_url,
                 params={
                     'start_date': start,
                     'end_date': end},
