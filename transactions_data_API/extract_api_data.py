@@ -66,7 +66,7 @@ def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
     return missing_data_per_column
 
 
-def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]):
+def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]) -> pd.DataFrame:
     """
     Validating statuses according to expected and returning restricted data
     """
