@@ -51,17 +51,12 @@ def transform_data(json: list[dict]) -> pd.DataFrame:
 
     """ Launching functions """
     missing_data = validate_data_quality(data)
-    data_with_status_restrictions = validate_statuses(data, status_expected)
-    index_status_restrictions = set(data_with_status_restrictions.index.to_list())
-
-    data_with_products_restrictions = validate_products(data)
-    index_products_restrictions = set(data_with_products_restrictions.index.to_list())
-
-    index_status_and_products_restrictions = index_status_restrictions.intersection(index_products_restrictions)
+    
+    valid_statuses = validate_statuses(data, status_expected)
+    valid_products = validate_products(data)
 
     """ Transforming data """
-    data_to_load = data[data.index.isin(index_status_and_products_restrictions)]
-    return data_to_load
+    return data.loc[valid_statuses.index.intersection(valid_products.index)]
 
 
 def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
