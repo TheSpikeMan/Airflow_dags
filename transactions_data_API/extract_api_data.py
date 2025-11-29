@@ -43,6 +43,39 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
     return json_file
 
 
+def transform_data(json: list[dict]) -> pd.DataFrame:
+    if json is None:
+        logger.error("No data loaded. Returning empty DataFrame.")
+        return pd.DataFrame()
+    data = pd.DataFrame(json)
+
+    """ Launching functions """
+    missing_data = validate_data_quality(data)
+    data_with_status_restriction = validate_statuses(data, status_expected)
+
+
+def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
+    """
+    Validating number of None values in each column
+    """
+    number_of_nones = df_to_validate.isna().sum()
+    number_of_rows = df_to_validate.shape[0]
+    missing_data_per_column = round(100 * pd.Series.div(number_of_nones, number_of_rows), 2)
+
+    return missing_data_per_column
+
+
+def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]):
+    """
+    Validating statuses according to expected and returning restricted data
+    """
+
+    status_ids_list = [list(dict_item.keys())[0] for dict_item in status]
+    status_validated = df_to_validate['status_id'].isin(status_ids_list)
+    df_validated_by_status = df_to_validate[status_validated]
+    return df_validated_by_status
+
+
 def load_data(json: list[dict]) -> pd.DataFrame:
     if json is None:
         logger.error("No data loaded. Returning empty DataFrame.")
@@ -62,11 +95,13 @@ if __name__ == '__main__':
     url = "http://127.0.0.1:8000/"
     sub_url = "transactions/"
     start_date = '2025-01-01'
-    end_date = '2025-12-31'
+    end_date = '2025-01-31'
+
+    """ Defining expected values"""
+    status_expected = [{2: 'in realization'}, {3: 'realized'}]
 
     """ Launching function """
     json_data = extract_api_data(url, sub_url, start_date, end_date)
 
     """ Transforming data"""
-    df = load_data(json_data)
-    print(df.head())
+    df = transform_data(json_data)
