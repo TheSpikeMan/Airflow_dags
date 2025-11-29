@@ -87,7 +87,7 @@ def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]) -> pd.Da
 
 
 def validate_products(df_to_validate: pd.DataFrame) -> pd.DataFrame:
-    products_validated = df_to_validate['product_name'].isna()
+    products_validated = df_to_validate['product_name'].notna()
     df_validated_by_products = df_to_validate[products_validated]
     return df_validated_by_products
 
