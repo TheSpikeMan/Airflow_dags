@@ -51,7 +51,9 @@ def transform_data(json: list[dict]) -> pd.DataFrame:
 
     """ Launching functions """
     missing_data = validate_data_quality(data)
-    data_with_status_restriction = validate_statuses(data, status_expected)
+    data_with_status_restrictions = validate_statuses(data, status_expected)
+    index_status_restrictions = set(data_with_status_restrictions.index.to_list())
+
     data_with_products_restrictions = validate_products(data)
 
 
