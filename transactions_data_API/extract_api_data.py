@@ -92,11 +92,11 @@ def validate_products(df_to_validate: pd.DataFrame) -> pd.DataFrame:
     return df_validated_by_products
 
 
-def load_data(json: list[dict]) -> pd.DataFrame:
-    if json is None:
+def load_data(df_to_load: pd.DataFrame) -> pd.DataFrame:
+    if df_to_load is None:
         logger.error("No data loaded. Returning empty DataFrame.")
         return pd.DataFrame()
-    return pd.DataFrame(json)
+    return df_to_load
 
 
 if __name__ == '__main__':
@@ -120,4 +120,7 @@ if __name__ == '__main__':
     json_data = extract_api_data(url, sub_url, start_date, end_date)
 
     """ Transforming data"""
-    df = transform_data(json_data)
+    df_transformed = transform_data(json_data)
+
+    """ Loading data"""
+    df_loaded = load_data(df_transformed)
