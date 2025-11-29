@@ -43,11 +43,11 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
     return json_file
 
 
-def transform_data(json: list[dict]) -> pd.DataFrame:
-    if json is None:
+def transform_data(data: list[dict]) -> pd.DataFrame:
+    if data is None:
         logger.error("No data loaded. Returning empty DataFrame.")
         return pd.DataFrame()
-    data = pd.DataFrame(json)
+    data = pd.DataFrame(data)
 
     """ Launching functions """
     missing_data = validate_data_quality(data)
