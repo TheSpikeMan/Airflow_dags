@@ -52,6 +52,7 @@ def transform_data(json: list[dict]) -> pd.DataFrame:
     """ Launching functions """
     missing_data = validate_data_quality(data)
     data_with_status_restriction = validate_statuses(data, status_expected)
+    data_with_products_restrictions = validate_products(data)
 
 
 def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
@@ -74,6 +75,12 @@ def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]):
     status_validated = df_to_validate['status_id'].isin(status_ids_list)
     df_validated_by_status = df_to_validate[status_validated]
     return df_validated_by_status
+
+
+def validate_products(df_to_validate: pd.DataFrame) -> df.DataFrame:
+    products_validated = df_to_validate['product_name'].isna()
+    df_validated_by_products = df_to_validate[products_validated]
+    return df_validated_by_products
 
 
 def load_data(json: list[dict]) -> pd.DataFrame:
