@@ -43,21 +43,25 @@ def extract_api_data(url_address: str, sub_url_address: str, start: str, end: st
     return json_file
 
 
-def transform_data(data: list[dict]) -> pd.DataFrame:
+def transform_data(data: list[dict]) -> pd.DataFrame | None:
     if data is None:
         logger.error("No data loaded. Returning empty DataFrame.")
         return pd.DataFrame()
     data = pd.DataFrame(data)
 
     """ Launching functions """
-    missing_data = validate_data_quality(data)
-    
-    idx_valid_statuses = validate_statuses(data, status_expected)
-    idx_valid_products = validate_products(data)
+    data_quality = validate_data_quality(data)
 
-    """ Transforming data """
-    data_transformed = data[data.index.isin(idx_valid_statuses) & data.index.isin(idx_valid_products)]
-    return data_transformed
+    """ Verifying data qualify """
+    if data_quality:
+        idx_valid_statuses = validate_statuses(data, status_expected)
+        idx_valid_products = validate_products(data)
+
+        """ Transforming data """
+        data_transformed = data[data.index.isin(idx_valid_statuses) & data.index.isin(idx_valid_products)]
+        return data_transformed
+    else:
+        return None
 
 
 def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
