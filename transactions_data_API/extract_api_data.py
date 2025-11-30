@@ -64,15 +64,21 @@ def transform_data(data: list[dict]) -> pd.DataFrame | None:
         return None
 
 
-def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
+def validate_data_quality(df_to_validate: pd.DataFrame) -> float:
     """
-    Validating number of None values in each column
+    Validating number of None values in each column.
+    Returning: flag (1/0) indicating if data is good quality or bad.
     """
     number_of_nones = df_to_validate.isna().sum()
     number_of_rows = df_to_validate.shape[0]
     missing_data_per_column = round(100 * pd.Series.div(number_of_nones, number_of_rows), 2)
+    if missing_data_per_column.any() > 10:
+        logger.info("Data quality is too bad.")
+        data_quality = 0
+    else:
+        data_quality = 1
 
-    return missing_data_per_column
+    return data_quality
 
 
 def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]) -> list:
