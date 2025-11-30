@@ -52,11 +52,12 @@ def transform_data(data: list[dict]) -> pd.DataFrame:
     """ Launching functions """
     missing_data = validate_data_quality(data)
     
-    valid_statuses = validate_statuses(data, status_expected)
-    valid_products = validate_products(data)
+    idx_valid_statuses = validate_statuses(data, status_expected)
+    idx_valid_products = validate_products(data)
 
     """ Transforming data """
-    return data.loc[valid_statuses.index.intersection(valid_products.index)]
+    data_transformed = data[data.index.isin(idx_valid_statuses) & data.index.isin(idx_valid_products)]
+    return data_transformed
 
 
 def validate_data_quality(df_to_validate: pd.DataFrame) -> pd.Series:
