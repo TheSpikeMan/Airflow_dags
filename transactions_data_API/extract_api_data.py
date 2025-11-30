@@ -106,7 +106,9 @@ def load_data(df_to_load: pd.DataFrame) -> pd.DataFrame:
     if df_to_load is None:
         logger.error("No data loaded. Returning empty DataFrame.")
         return pd.DataFrame()
-    return df_to_load
+    else:
+        logger.info("Data has been loaded.")
+        return df_to_load
 
 
 if __name__ == '__main__':
