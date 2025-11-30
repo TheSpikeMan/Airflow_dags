@@ -81,13 +81,14 @@ def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]) -> pd.Da
     return df_validated_by_status
 
 
-def validate_products(df_to_validate: pd.DataFrame) -> pd.DataFrame:
+def validate_products(df_to_validate: pd.DataFrame) -> list:
     """
-    Validating products which are not 'None'
+    Validating products which are not 'None'.
+    Returning: indexes of DataFrame validated.
     """
     products_validated = df_to_validate['product_name'].notna()
     df_validated_by_products = df_to_validate[products_validated]
-    return df_validated_by_products
+    return df_validated_by_products.index.to_list()
 
 
 def load_data(df_to_load: pd.DataFrame) -> pd.DataFrame:
