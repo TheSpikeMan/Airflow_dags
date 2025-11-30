@@ -81,15 +81,14 @@ def validate_data_quality(df_to_validate: pd.DataFrame) -> float:
     return data_quality
 
 
-def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]) -> list:
+def validate_statuses(df_to_validate: pd.DataFrame, status: list[dict]) -> pd.Series:
     """
     Validating statuses according to expected and returning restricted data
-    Returning: indexes of DataFrame validated
+    Returning: pd.Series as a mask
     """
 
     status_ids_list = [list(dict_item.keys())[0] for dict_item in status]
-    status_validated = df_to_validate['status_id'].isin(status_ids_list)
-    return status_validated.index.to_list()
+    return df_to_validate['status_id'].isin(status_ids_list)
 
 
 def validate_products(df_to_validate: pd.DataFrame) -> list:
