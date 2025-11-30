@@ -72,11 +72,11 @@ def validate_data_quality(df_to_validate: pd.DataFrame) -> float:
     number_of_nones = df_to_validate.isna().sum()
     number_of_rows = df_to_validate.shape[0]
     missing_data_per_column = round(100 * pd.Series.div(number_of_nones, number_of_rows), 2)
-    if missing_data_per_column.any() > 10:
+    if (missing_data_per_column > 20).any():
         logger.info("Data quality is too bad.")
-        data_quality = 0
+        data_quality = False
     else:
-        data_quality = 1
+        data_quality = True
 
     return data_quality
 
